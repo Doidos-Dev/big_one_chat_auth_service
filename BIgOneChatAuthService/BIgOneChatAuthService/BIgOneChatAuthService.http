@@ -1,0 +1,6 @@
+@BIgOneChatAuthService_HostAddress = http://localhost:5124
+
+GET {{BIgOneChatAuthService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

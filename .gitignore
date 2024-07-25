@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+BigOneChatAuthService/BigOneChatAuthService/appsettings.json
+BigOneChatAuthService/BigOneChatAuthService/appsettings.Development.json
+BigOneChatAuthService/BigOneChatAuthService/Properties/launchSettings.json
