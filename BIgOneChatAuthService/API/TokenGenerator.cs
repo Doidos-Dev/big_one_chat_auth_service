@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Domain.Models;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -20,7 +21,7 @@ namespace BIgOneChatAuthService
                 Subject = claims,
                 Issuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
                 SigningCredentials = credentials,
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddDays(int.Parse(Environment.GetEnvironmentVariable("JWT_EXPIRE_TIME_HOURS")!))
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
