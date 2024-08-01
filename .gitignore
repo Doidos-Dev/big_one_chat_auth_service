@@ -399,7 +399,9 @@ FodyWeavers.xsd
 BigOneChatAuthService/BigOneChatAuthService/appsettings.json
 BigOneChatAuthService/BigOneChatAuthService/appsettings.Development.json
 BigOneChatAuthService/BigOneChatAuthService/Properties/launchSettings.json
-/BigOneChatAuthService/docker-compose.yml
-BIgOneChatAuthService/API/appsettings.json
+
 BIgOneChatAuthService/API/appsettings.Development.json
+BIgOneChatAuthService/API/appsettings.json
 BIgOneChatAuthService/API/Properties/launchSettings.json
+BIgOneChatAuthService/docker-compose.yml
+

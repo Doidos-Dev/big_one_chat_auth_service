@@ -6,6 +6,9 @@ using Domain.Interfaces;
 using Data.Repositories;
 using Application.Services.Interfaces;
 using Application.Services;
+using Application.Utils.Auth;
+using Application.Utils.Auth.Interfaces;
+
 
 namespace DependencyInjection.Ext
 {
@@ -14,9 +17,11 @@ namespace DependencyInjection.Ext
         public static void AddConfigurations(this IServiceCollection service, IConfiguration configuration)
         {
             service
-                .AddDatabaseConfigurations (configuration)
+                .AddDatabaseConfigurations(configuration)
                 .AddRepositories()
-                .AddServices();
+                .AddServices()
+                .AddUtilsServices();
+
         }
 
         public static IServiceCollection AddDatabaseConfigurations(this IServiceCollection service, IConfiguration configuration)
@@ -43,5 +48,14 @@ namespace DependencyInjection.Ext
 
             return service;
         }
+
+
+        public static IServiceCollection AddUtilsServices(this IServiceCollection service)
+        {
+            service.AddSingleton<ITokensGenerator ,TokensGenerator>();
+
+            return service;
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.Responses;
 using Application.Services.Interfaces;
 using Application.Utils.Auth;
+using Application.Utils.Auth.Interfaces;
 using Domain.Interfaces;
 using Domain.Models;
 
@@ -10,16 +11,18 @@ namespace Application.Services
     public class AuthService : IAuthService
     {
         private readonly ITokenRepository _tokenRepository;
+        private readonly ITokensGenerator _tokenGenerator;
 
-        public AuthService(ITokenRepository tokenRepository)
+        public AuthService(ITokenRepository tokenRepository, ITokensGenerator tokenGenerator)
         {
             _tokenRepository = tokenRepository;
+            _tokenGenerator = tokenGenerator;
         }
 
         public async Task<APIResponse<TokenModel>> GenerateToken(UserModel model)
         {
-            var accessToken = TokenGenerator.GenerateToken(model);
-            var refreshToken = RefreshTokenGenerator.GenerateRefreshToken();
+            var accessToken = _tokenGenerator.GenerateToken(model);
+            var refreshToken = _tokenGenerator.GenerateRefreshToken();
 
             var tokenModel = new TokenModel()
             {
@@ -43,7 +46,7 @@ namespace Application.Services
             if (tokenModel.Token != model.Token || tokenModel.RefreshToken != model.RefreshToken)
                 return new APIResponse<TokenModel>(400, "Invalid refresh/access token");
 
-            var claimsPrincipal = TokenGenerator.GetClaimsPrincipal(model.Token);
+            var claimsPrincipal = _tokenGenerator.GetClaimsPrincipal(model.Token);
 
             if(claimsPrincipal is null)
                 return new APIResponse<TokenModel>(400, "Invalid access token");
@@ -54,8 +57,8 @@ namespace Application.Services
                 Role = claimsPrincipal.Claims.ToList()[1].Value
             };
 
-            var newAccessToken = TokenGenerator.GenerateToken(userModel);
-            var newRefreshToken = RefreshTokenGenerator.GenerateRefreshToken();
+            var newAccessToken = _tokenGenerator.GenerateToken(userModel);
+            var newRefreshToken = _tokenGenerator.GenerateRefreshToken();
 
             return new APIResponse<TokenModel>(new TokenModel()
             {
