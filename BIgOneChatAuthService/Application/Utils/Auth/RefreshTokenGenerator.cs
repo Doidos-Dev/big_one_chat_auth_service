@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 
-namespace BIgOneChatAuthService
+
+namespace Application.Utils.Auth
 {
     public static class RefreshTokenGenerator
     {

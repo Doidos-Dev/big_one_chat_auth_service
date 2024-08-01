@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace Domain.Interfaces
 {
     public interface ITokenRepository
     {
+        Task<TokenModel> Register(TokenModel model);
+        Task<TokenModel> GetByNickname(string nickname);
+        Task<TokenModel> Update(TokenModel model);
     }
 }
