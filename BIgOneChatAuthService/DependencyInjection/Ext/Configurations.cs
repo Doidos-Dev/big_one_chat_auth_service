@@ -9,6 +9,7 @@ using Application.Services;
 using Application.Utils.Auth;
 using Application.Utils.Auth.Interfaces;
 
+
 namespace DependencyInjection.Ext
 {
     public static class Configurations
@@ -20,6 +21,7 @@ namespace DependencyInjection.Ext
                 .AddRepositories()
                 .AddServices()
                 .AddUtilsServices();
+
         }
 
         public static IServiceCollection AddDatabaseConfigurations(this IServiceCollection service, IConfiguration configuration)
@@ -47,11 +49,13 @@ namespace DependencyInjection.Ext
             return service;
         }
 
+
         public static IServiceCollection AddUtilsServices(this IServiceCollection service)
         {
             service.AddSingleton<ITokensGenerator ,TokensGenerator>();
 
             return service;
         }
+
     }
 }
