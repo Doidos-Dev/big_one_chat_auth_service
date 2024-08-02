@@ -9,7 +9,7 @@ namespace Auth.UnitTest.Application.Fixture
 {
     public static class JWTTokenFixture
     {
-        public static string GenerateToken(UserModel model, string secret)
+        public static string GenerateToken(UserModel model, string secret, string issuer, int expTime)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
@@ -19,9 +19,9 @@ namespace Auth.UnitTest.Application.Fixture
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = claims,
-                Issuer = "https://test-issuer-domain/",
+                Issuer = issuer,
                 SigningCredentials = credentials,
-                Expires = DateTime.Now.AddHours(4)
+                Expires = DateTime.Now.AddHours(expTime)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

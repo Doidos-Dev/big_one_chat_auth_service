@@ -71,11 +71,11 @@ namespace AuthUnitTest.Application
         public async void Refresh_Token_Success()
         {
             //Arrange
-
+            var issuer = "https://test-issuer-domain/";
             var oldTokenModel = new TokenModel()
             {
                 Nickname = "TestNickname",
-                Token = JWTTokenFixture.GenerateToken(_userModel, _secret),
+                Token = JWTTokenFixture.GenerateToken(_userModel, _secret, issuer, 4),
                 RefreshToken = JWTTokenFixture.GenerateRefreshToken()
             };
             var newTokenModel = new TokenModel()
@@ -85,7 +85,7 @@ namespace AuthUnitTest.Application
                 RefreshToken = "NewRefreshToken"
             };
             _tokenRepositoryMock.Setup(x => x.GetByNickname(oldTokenModel.Nickname)).Returns(Task.FromResult(oldTokenModel));
-            _tokenGeneratorMock.Setup(x => x.GetClaimsPrincipal(oldTokenModel.Token)).Returns(ClaimsFixture.GenerateClaimsPrincipal(oldTokenModel.Token, _secret));
+            _tokenGeneratorMock.Setup(x => x.GetClaimsPrincipal(oldTokenModel.Token)).Returns(ClaimsFixture.GenerateClaimsPrincipal(oldTokenModel.Token, _secret, issuer));
             _tokenGeneratorMock.Setup(x => x.GenerateToken(_userModel)).Returns(newTokenModel.Token);
             _tokenGeneratorMock.Setup(x => x.GenerateRefreshToken()).Returns(newTokenModel.RefreshToken);
             var authService = new AuthService(_tokenRepositoryMock.Object, _tokenGeneratorMock.Object);
@@ -123,16 +123,17 @@ namespace AuthUnitTest.Application
         public async void Refresh_Token_Invalid_Access_Or_Refresh_Token_Fail()
         {
             //Arrange
+            var issuer = "https://test-issuer-domain/";
             var requestTokenModel = new TokenModel()
             {
                 Nickname = "TestNickname",
-                Token = JWTTokenFixture.GenerateToken(_userModel, _secret),
+                Token = JWTTokenFixture.GenerateToken(_userModel, _secret, issuer, 4),
                 RefreshToken = JWTTokenFixture.GenerateRefreshToken()
             };
             var oldTokenModelFetched = new TokenModel()
             {
                 Nickname = "TestNickname",
-                Token = JWTTokenFixture.GenerateToken(_userModel, _secret),
+                Token = JWTTokenFixture.GenerateToken(_userModel, _secret, issuer, 4),
                 RefreshToken = JWTTokenFixture.GenerateRefreshToken()
             };
             _tokenRepositoryMock.Setup(x => x.GetByNickname(requestTokenModel.Nickname)).Returns(Task.FromResult(oldTokenModelFetched));
@@ -151,10 +152,11 @@ namespace AuthUnitTest.Application
         public async void Refresh_Token_Invalid_Token_Claims_Principal_Return_Null_Fail()
         {
             //Arrange
+            var issuer = "https://test-issuer-domain/";
             var requestTokenModel = new TokenModel()
             {
                 Nickname = "TestNickname",
-                Token = JWTTokenFixture.GenerateToken(_userModel, _secret),
+                Token = JWTTokenFixture.GenerateToken(_userModel, _secret, issuer, 4),
                 RefreshToken = JWTTokenFixture.GenerateRefreshToken()
             };
 
